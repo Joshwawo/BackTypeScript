@@ -1,22 +1,22 @@
 import { Request, Response } from "express";
+import { insertItem } from "../services/item";
 import { handleHttp } from "../utils/error.handle";
 
 const getItem = (req: Request, res: Response) => {
   try {
-
-    res.json({message:'Holas'})
+    res.json({ message: "Holas" });
   } catch (error) {
     res.status(500);
     res.send("Error_Get_Items");
   }
 };
 
-const posttItems = ({ body }: Request, res: Response) => {
+const posttItems =async ({ body }: Request, res: Response) => {
   try {
-    res.send(body);
-    console.log(body)
+    const respuestaItem = await insertItem(body);
+    res.send(respuestaItem);
   } catch (error) {
-    handleHttp(res, "Error_Post_Items");
+    handleHttp(res, "Error_Post_Items", error);
   }
 };
 
