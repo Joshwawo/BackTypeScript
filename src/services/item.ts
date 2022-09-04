@@ -7,4 +7,15 @@ const insertItem = async (item: Car) => {
   return RespuestaInsert;
 };
 
-export { insertItem };
+const getItemsCars = async () => {
+  const respuestaItems = await ItemModel.find({});
+  return respuestaItems;
+};
+
+const getById = async (id:string)=>{
+  const respuestaItem = await ItemModel.findOne({_id:id})
+  return respuestaItem
+
+}
+
+export { insertItem, getItemsCars,getById };
