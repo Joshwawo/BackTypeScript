@@ -1,13 +1,20 @@
 import { Request, Response } from "express";
-import { insertItem, getItemsCars,getById } from "../services/item";
+import {
+  insertItem,
+  getItemsCars,
+  getById,
+  updateCar,
+  deleteCar,
+} from "../services/item";
 import { handleHttp } from "../utils/error.handle";
 
 const getItem = async (req: Request, res: Response) => {
   try {
     // res.json({ message: "Holas" });
-    const {id} = req.params
-    const respuesta = await getById(id)
-    res.send(respuesta)
+    const { id } = req.params;
+    const respuesta = await getById(id);
+    const data = respuesta ? respuesta : "NOT_FOUND";
+    res.send(data);
   } catch (error) {
     res.status(500);
     res.send("Error_Get_Items");
@@ -34,15 +41,25 @@ const getItems = async (req: Request, res: Response) => {
   }
 };
 
-const updateItems = (req: Request, res: Response) => {
+const updateItems = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params;
+    const body = req.body;
+
+    const respuestaItems = await updateCar(id, body);
+    console.log(respuestaItems);
+    res.send(respuestaItems);
   } catch (error) {
     handleHttp(res, "Error_Update_Items");
   }
 };
 
-const deleteItems = (req: Request, res: Response) => {
+const deleteItems = async (req: Request, res: Response) => {
   try {
+    const { id } = req.params;
+    const respuestaItems = await deleteCar(id);
+    // console.log(respuestaItems);
+    res.send(respuestaItems);
   } catch (error) {
     handleHttp(res, "Error_Delete_Items");
   }

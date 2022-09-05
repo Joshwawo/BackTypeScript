@@ -12,10 +12,21 @@ const getItemsCars = async () => {
   return respuestaItems;
 };
 
-const getById = async (id:string)=>{
-  const respuestaItem = await ItemModel.findOne({_id:id})
-  return respuestaItem
+const getById = async (id: string) => {
+  const respuestaItem = await ItemModel.findOne({ _id: id });
+  return respuestaItem;
+};
 
-}
+const updateCar = async (id: string, data: Car) => {
+  const respuesta = await ItemModel.findByIdAndUpdate({ _id: id }, data, {
+    new: true,
+  });
+  return respuesta;
+};
 
-export { insertItem, getItemsCars,getById };
+const deleteCar = async (id: string) => {
+  const respuestaIte = await ItemModel.remove({ _id: id });
+  return respuestaIte;
+};
+
+export { insertItem, getItemsCars, getById, updateCar, deleteCar };
