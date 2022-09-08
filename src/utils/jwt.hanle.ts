@@ -1,9 +1,10 @@
 import { sign, verify } from "jsonwebtoken";
 import "dotenv/config";
+import { JTW_SECRET } from '../app';
 
 // console.log(process.env.JTW_SECRET);
 
-const JTW_SECRET = process.env.JTW_SECRET || "estoesunacontraseñasupersecreta";
+// const JTW_SECRET = process.env.JTW_SECRET || "estoesunacontraseñasupersecreta";
 
 // const generateToken = async (id: object) => {
 //   const jwt = sign({ id }, JTW_SECRET, { expiresIn: "2h" });

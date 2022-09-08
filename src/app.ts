@@ -7,6 +7,8 @@ import db from "./config/mongo";
 const PORT = process.env.PORT || 3000;
 
 
+export const JTW_SECRET = process.env.JTW_SECRET || 'HOLAS'
+
 
 const app = express();
 app.use(cors());
