@@ -33,9 +33,11 @@ const posttItems = async ({ body }: Request, res: Response) => {
 
 const getItems = async (req: Request, res: Response) => {
   try {
-    const respuesta = await getItemsCars();
+    // const respuesta = await getItemsCars();
 
-    res.send(respuesta);
+
+    // res.send(respuesta);
+    res.send({message:"Hola desde aqui"})
   } catch (error) {
     handleHttp(res, "Error_Get_Items");
   }

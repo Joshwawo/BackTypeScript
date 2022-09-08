@@ -2,10 +2,11 @@ import { Request, Response } from "express";
 import { getById } from "../services/item";
 import { handleHttp } from "../utils/error.handle";
 import {JwtPayload} from 'jsonwebtoken'
+import {RequestExt} from '../interfaces/reqExt'
 
-interface RequestExt extends Request {
-  user?: string | JwtPayload
-}
+// interface RequestExt extends Request {
+//   user?: string | JwtPayload
+// }
 
 const getItems = async (req: RequestExt, res: Response) => {
   try {

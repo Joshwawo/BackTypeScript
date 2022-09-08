@@ -10,9 +10,9 @@ import { logMiddleWare } from "../middlewares/log";
 
 const router = Router();
 
-router.get("/post", getItems);
+router.get("/posts", getItems);
 router.get("/post/:id", getItem);
-router.post("/post", posttItems);
+router.post("/posts", posttItems);
 router.put("/post/:id", updateItems);
 router.delete("/post/:id", deleteItems);
 

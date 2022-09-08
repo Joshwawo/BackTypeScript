@@ -1,10 +1,14 @@
 import { NextFunction, Request, Response } from "express";
 import { verifyToken } from "../utils/jwt.hanle";
-import { JwtPayload } from "jsonwebtoken";
+import {RequestExt} from '../interfaces/reqExt'
 
-interface RequestExt extends Request {
-  user?: string | JwtPayload;
-}
+
+//TODO:Cambiar esto a una Interface
+// interface RequestExt extends Request {
+//   user?: string | JwtPayload;
+// }
+
+
 
 const checkJwt = async (req: RequestExt, res: Response, next: NextFunction) => {
   try {
