@@ -5,12 +5,21 @@ import { User } from "../interfaces/user.interfaces";
 
 const UserSchema = new Schema<User>(
   {
+    name: {
+      type: String,
+    },
+
     email: {
       type: String,
+      unique: true,
     },
     password: {
       type: String,
     },
+    description:{
+      type:String,
+      default: 'am description...'
+    }
   },
   {
     timestamps: true,
