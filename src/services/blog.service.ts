@@ -1,8 +1,10 @@
 import BlogModel from "../models/blog.model";
 import { Blog } from "../interfaces/blog/blog.interfaces";
-import { deleteImage, uploadImage } from "../libs/cloudinary";
+import { deleteImage, uploadImage, deleteAndUpdate } from "../libs/cloudinary";
 import fs from "fs-extra";
 
+
+//!POST
 const insertBlog = async (blog: Blog, files: any): Promise<unknown> => {
   console.log(files);
   try {
@@ -33,6 +35,7 @@ const insertBlog = async (blog: Blog, files: any): Promise<unknown> => {
   }
 };
 
+//!GET
 const FetchBlogs = async (): Promise<unknown> => {
   try {
     const respuestaBlogs = await BlogModel.find({});
@@ -42,7 +45,7 @@ const FetchBlogs = async (): Promise<unknown> => {
     return error;
   }
 };
-
+//!GET
 const fetchBlogId = async (id: string) => {
   try {
     const respuestBlog = await BlogModel.findById(id);
@@ -52,29 +55,67 @@ const fetchBlogId = async (id: string) => {
   }
 };
 
-const fetchBlogDelete =async (id:string) => {
-    try {
+//!DELETE
+const fetchBlogDelete = async (id: string) => {
+  try {
     // const postDelete = await BlogModel.findOneAndDelete({_id:req.params.id})
-
-        const respuestBlog = await BlogModel.findByIdAndDelete({_id:id});
-
-        if(respuestBlog?.image?.public_id){
-            await deleteImage(respuestBlog?.image?.public_id)
-        }
-
-        return respuestBlog;
-
-
-
-
-
-
-        
-        
-    } catch (error) {
-        
+    const postDelete = await BlogModel.findOneAndDelete({ _id: id });
+    if (!postDelete) return false;
+    if (postDelete?.image?.public_id) {
+      await deleteImage(postDelete.image.public_id);
     }
-    
-}
+    return postDelete;
+  } catch (error) {}
+};
 
-export { insertBlog, FetchBlogs, fetchBlogId };
+//!PUT
+
+const fetchUpdateblog = async (id: string, files: any, body: Blog) => {
+  try {
+    let blog = await BlogModel.findById(id);
+
+    if (files?.image === undefined) {
+      const data = {
+        title: body.title,
+        descripcion: body.descripcion,
+        tech: body.tech,
+      };
+      blog = await BlogModel.findByIdAndUpdate(id, data, { new: true });
+      return blog;
+    } else if (files?.image) {
+      //   await cloudinary.uploader.destroy(String(blog?.image.public_id));
+      //   const result = await uploadImage(files.image.tempFilePath);
+      //   await fs.remove(files.image.tempFilePath);
+
+      // const  result= deleteAndUpdate(String(blog?.image.public_id),files.image.tempFilePath)
+      const result = await deleteAndUpdate(
+        String(blog?.image.public_id),
+        files.image.tempFilePath
+      );
+
+      const data: Blog = {
+        title: body.title,
+        descripcion: body.descripcion,
+        tech: body.tech,
+        image: {
+          url: result?.secure_url,
+          public_id: result?.public_id,
+        },
+      };
+
+      blog = await BlogModel.findByIdAndUpdate(id, data, { new: true });
+
+      return blog;
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export {
+  insertBlog,
+  FetchBlogs,
+  fetchBlogId,
+  fetchBlogDelete,
+  fetchUpdateblog,
+};

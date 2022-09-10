@@ -7,6 +7,7 @@ export interface Blog {
     public_id: string;
   };
   
+  
 }
 
 export interface Blogs {

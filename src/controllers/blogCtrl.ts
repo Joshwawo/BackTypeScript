@@ -1,7 +1,13 @@
 import { Request, Response } from "express";
 import { deleteImage } from "../libs/cloudinary";
 import BlogModel from "../models/blog.model";
-import { insertBlog, FetchBlogs, fetchBlogId } from "../services/blog.service";
+import {
+  insertBlog,
+  FetchBlogs,
+  fetchBlogId,
+  fetchBlogDelete,
+  fetchUpdateblog,
+} from "../services/blog.service";
 import { handleHttp } from "../utils/error.handle";
 import { Blog } from "../interfaces/blog/blog.interfaces";
 
@@ -38,25 +44,46 @@ const getBlog = async ({ params }: Request, res: Response) => {
 };
 
 const deleteBlog = async (req: Request, res: Response) => {
+  // try {
+  //   const postDelete = await BlogModel.findOneAndDelete({ _id: req.params.id });
+  //   if (postDelete?.image?.public_id) {
+  //     await deleteImage(postDelete.image.public_id);
+  //   }
+  //   res.send({ message: "Post deleted" });
+  // } catch (error) {
+  //   console.log(error);
+  // }
+
+  const { id } = req.params;
   try {
-    const postDelete = await BlogModel.findOneAndDelete({ _id: req.params.id });
-    if (postDelete?.image?.public_id) {
-      await deleteImage(postDelete.image.public_id);
+    const respuestaDelete = await fetchBlogDelete(id);
+
+    if (!respuestaDelete) {
+      return res.status(404).json({
+        status: 404,
+        message: "No existe un post con ese id",
+      });
     }
+
+    console.log(respuestaDelete);
     res.send({ message: "Post deleted" });
   } catch (error) {
     console.log(error);
   }
 };
 
-// try {
-//   const {id} = req.params;
-//   const respuesta = await deleteBlog(id);
-//   res.send(respuesta)
-// } catch (error) {
-//   console.log(error)
-// }
+const updateBlog = async ({ params, body, files }: Request, res: Response) => {
+  try {
+    const { id } = params;
 
-// }
+    // const respuestaUpdate = await fetchUpdateblog(id,files,body)
+    const respuestaUpdate = await fetchUpdateblog(id, files, body);
 
-export { getBlogs, postBlogs, getBlog, deleteBlog };
+    console.log(respuestaUpdate);
+    res.send(respuestaUpdate);
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export { getBlogs, postBlogs, getBlog, deleteBlog, updateBlog };

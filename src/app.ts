@@ -3,7 +3,7 @@ import cors from "cors";
 import "dotenv/config";
 import fileupload from "express-fileupload";
 import { router } from "./routes";
-import db from "./config/mongo";
+import { dbConnect } from "./config/mongo";
 
 const PORT = process.env.PORT || 3000;
 
@@ -18,14 +18,10 @@ app.use(
     tempFileDir: "./upload",
   })
 );
+
 app.use(router);
-db()
-  .then(() => {
-    console.log("Conexion exitosa a la base de datos");
-  })
-  .catch((error) => {
-    console.log(error);
-  });
+
+dbConnect();
 
 app.listen(PORT, () => {
   console.log(`Servidor corriendo en el http://localhost:${PORT}`);
