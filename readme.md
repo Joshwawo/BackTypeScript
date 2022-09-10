@@ -8,3 +8,4 @@ estaria muy bueno para mi yo del futuro, es una buena plantilla preconfigurada, 
 - [ ] arreglar las rutas de items, porque se descompuso la cosa  x,d
 - [ ] agregar el middleware a las ruta de items y blog, las otras en estan en desarollo
 - [ ] agregar la interfaz para RequestExt  e eliminar la interfaz creada en order
+- [ ] Cambiar la logica de negocio, hacia el blog.services
