@@ -3,16 +3,16 @@ import { Blog } from "../interfaces/blog/blog.interfaces";
 import { deleteImage, uploadImage, deleteAndUpdate } from "../libs/cloudinary";
 import fs from "fs-extra";
 
-
 //!POST
 const insertBlog = async (blog: Blog, files: any): Promise<unknown> => {
-  console.log(files);
+  //   console.log(files);
   try {
-    const { title, descripcion, tech } = blog;
+    const { title, descripcion, tech, github, proyectUrl } = blog;
     let image;
 
     if (files?.image) {
       const result = await uploadImage(files.image.tempFilePath);
+      console.log(result);
       await fs.remove(files.image.tempFilePath);
       image = {
         url: result.secure_url,
@@ -25,6 +25,8 @@ const insertBlog = async (blog: Blog, files: any): Promise<unknown> => {
       descripcion,
       tech,
       image,
+      github,
+      proyectUrl,
     });
 
     const respuestaBlog = await newBlog.save();
@@ -79,6 +81,8 @@ const fetchUpdateblog = async (id: string, files: any, body: Blog) => {
         title: body.title,
         descripcion: body.descripcion,
         tech: body.tech,
+        github: body.github,
+        proyectUrl: body.proyectUrl,
       };
       blog = await BlogModel.findByIdAndUpdate(id, data, { new: true });
       return blog;
@@ -101,6 +105,8 @@ const fetchUpdateblog = async (id: string, files: any, body: Blog) => {
           url: result?.secure_url,
           public_id: result?.public_id,
         },
+        github: body.github,
+        proyectUrl: body.proyectUrl,
       };
 
       blog = await BlogModel.findByIdAndUpdate(id, data, { new: true });

@@ -6,6 +6,8 @@ export interface Blog {
     url: string;
     public_id: string;
   };
+  github: string;
+  proyectUrl: string;
   
   
 }
@@ -16,6 +18,8 @@ export interface Blogs {
   title:        string;
   descripcion?: string;
   tech?:        string;
+  github?:      string;
+  proyectUrl?:  string;
   createdAt:    Date;
   updatedAt:    Date;
 }

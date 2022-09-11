@@ -18,6 +18,14 @@ const BlogSchema = new Schema<Blog>(
       url: String,
       public_id: String,
     },
+    github: {
+      type: String,
+    },
+    proyectUrl: {
+      type: String,
+    },
+    
+
   },
   {
     timestamps: true,
