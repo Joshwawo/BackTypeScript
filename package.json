@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon ./src/app.ts",
-    "start": "tsc && node ./dist/app.js"
+   
+    "start": "tsc -p . && node ./dist/app.js"
   },
   "keywords": [],
   "author": "Jorge Morales G",
