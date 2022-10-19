@@ -47,7 +47,7 @@ const FetchBlogs = async (): Promise<unknown> => {
     return error;
   }
 };
-//!GET
+//!GET BY ID
 const fetchBlogId = async (id: string) => {
   try {
     const respuestBlog = await BlogModel.findById(id);

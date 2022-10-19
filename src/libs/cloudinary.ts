@@ -30,6 +30,7 @@ export const uploadImage = async (
     //   // { effect: "art:hokusai", border: "3px_solid_rgb:00399b", radius: 20 },
     // ],
   });
+  
 };
 
 export const deleteImage = async (id: string): Promise<DeleteApiResponse> => {

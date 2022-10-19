@@ -4,6 +4,7 @@ import "dotenv/config";
 import fileupload from "express-fileupload";
 import { router } from "./routes";
 import { dbConnect } from "./config/mongo";
+import morgan from 'morgan'
 
 const PORT = process.env.PORT || 3000;
 
@@ -11,7 +12,9 @@ export const JTW_SECRET = process.env.JTW_SECRET || "HOLAS";
 
 const app = express();
 app.use(cors());
+app.use(morgan('dev'))
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 app.use(
   fileupload({
     useTempFiles: true,

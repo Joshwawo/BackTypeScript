@@ -24,9 +24,15 @@ const getBlogs = async (req: Request, res: Response) => {
   // res.send({ message: "Desde aki" });
   try {
     const respuesta = await FetchBlogs();
+    if (!respuesta || null) {
+      return res.status(404).json({
+        status: 404,
+        message: "No existe un post con ese id",
+      });
+    }
     res.send(respuesta);
   } catch (error) {
-    handleHttp(res, "Error_Get_Blog");
+    handleHttp(res, "Error_Get_Blog", error);
   }
 };
 
@@ -35,11 +41,19 @@ const getBlog = async ({ params }: Request, res: Response) => {
     const { id } = params;
 
     const respustablog = await fetchBlogId(id);
+    if (respustablog === null) {
+      return res.status(404).json({
+        status: 404,
+        message: "No existe un post con ese id",
+      });
+    }
     // console.log(blogById)
+    // console.log(respustablog);
 
     res.send(respustablog);
   } catch (error) {
-    console.log(error);
+    // console.log(error);
+    handleHttp(res, "Error_Get_Blog");
   }
 };
 
@@ -65,7 +79,7 @@ const deleteBlog = async (req: Request, res: Response) => {
       });
     }
 
-    console.log(respuestaDelete);
+    // console.log(respuestaDelete);
     res.send({ message: "Post deleted" });
   } catch (error) {
     console.log(error);
@@ -79,7 +93,7 @@ const updateBlog = async ({ params, body, files }: Request, res: Response) => {
     // const respuestaUpdate = await fetchUpdateblog(id,files,body)
     const respuestaUpdate = await fetchUpdateblog(id, files, body);
 
-    console.log(respuestaUpdate);
+    // console.log(respuestaUpdate);
     res.send(respuestaUpdate);
   } catch (error) {
     console.log(error);
